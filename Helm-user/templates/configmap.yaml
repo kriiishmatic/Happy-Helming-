@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.component.name }}
+  namespace: {{ .Values.component.namespace }}
+  labels:
+    name: {{ .Values.component.name }}
+    project: {{ .Values.component.namespace }}
+    environment: {{ .Values.component.environment }}
+    tier: backend
+data:
+  MONGO: {{ .Values.endpoints.MONGO }}
+  REDIS_URL: {{ .Values.endpoints.REDIS_URL }}
+  MONGO_URL: {{ .Values.endpoints.MONGO_URL}}
+  
