@@ -1,44 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ .Values.component.name }}
+  namespace: {{ .Values.component.namespace }}
+  labels:
+    {{- include "frontend.labels" . | nindent 4 }}
+
 spec:
-  containers:
-    - name: {{ .Values.component.name }}
-      image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-      imagePullPolicy: IfNotPresent
+  replicas: {{ .Values.component.replicas }}
 
-      livenessProbe:
-        httpGet:
-          path: /health
-          port: {{ .Values.ports.containerPort }}
-        initialDelaySeconds: 10
-        periodSeconds: 10
-        failureThreshold: 3
+  selector:
+    matchLabels:
+      {{- include "frontend.selectorLabels" . | nindent 6 }}
 
-      readinessProbe:
-        httpGet:
-          path: /health
-          port: {{ .Values.ports.containerPort }}
-        initialDelaySeconds: 10
-        periodSeconds: 10
-        failureThreshold: 3
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include "frontend.configChecksum" . | sha256sum }}
 
-      startupProbe:
-        httpGet:
-          path: /health
-          port: {{ .Values.ports.containerPort }}
-        failureThreshold: 30
-        periodSeconds: 10
+      labels:
+        {{- include "frontend.labels" . | nindent 8 }}
 
-      ports:
-        - containerPort: {{ .Values.ports.containerPort }}
+    spec:
+      containers:
+        - name: {{ .Values.component.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
 
-      resources:
-        {{- toYaml .Values.resources | nindent 8 }}
+          ports:
+            - containerPort: {{ .Values.ports.containerPort }}
 
-      volumeMounts:
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.ports.containerPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.ports.containerPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.ports.containerPort }}
+            failureThreshold: 30
+            periodSeconds: 10
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+
+      volumes:
         - name: nginx-config
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
-
-  volumes:
-    - name: nginx-config
-      configMap:
-        name: {{ .Values.component.name }}
+          configMap:
+            name: {{ .Values.component.name }}
