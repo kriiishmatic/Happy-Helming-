@@ -9,11 +9,11 @@ metadata:
     environment: {{ .Values.component.environment }}
     tier: backend
 data:
-  CART_HOST: {{ .Values.endpoints.CART_HOST}}
-  CART_PORT: "8080"
-  USER_HOST: {{ .Values.endpoints.USER_HOST}}
-  USER_PORT: "8080"
-  AMQP_HOST: {{ .Values.endpoints.AMQP_HOST }}
-  AMQP_USER: {{ .Values.endpoints.AMQP_USER }}
-  AMQP_PASS: {{ .Values.endpoints.AMQP_PASS }}
+  CART_HOST: {{ .Values.endpoints.CART_HOST | quote }}
+  CART_PORT: {{ .Values.endpoints.CART_PORT | quote }}
+  USER_HOST: {{ .Values.endpoints.USER_HOST | quote }}
+  USER_PORT: {{ .Values.endpoints.USER_PORT | quote }}
+  AMQP_HOST: {{ .Values.endpoints.AMQP_HOST | quote }}
+  AMQP_USER: {{ .Values.endpoints.AMQP_USER | quote }}
+  AMQP_PASS: {{ .Values.endpoints.AMQP_PASS | quote }}
   

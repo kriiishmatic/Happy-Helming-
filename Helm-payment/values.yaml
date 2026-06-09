@@ -16,6 +16,11 @@ endpoints:
   AMQP_HOST: "rabbitmq"
   AMQP_USER: "roboshop"
   AMQP_PASS: "roboshop123"
+###### PORTS #######
+ports :
+  containerPort: 8080
+  servicePort: 8080
+  
   
 
 
@@ -28,8 +33,4 @@ resources:
     cpu: 250m
     memory: 256Mi
 
-  ###### PORTS #######
-  ports :
-   containerPort: 8080
-   servicePort: 8080
-   
+  
