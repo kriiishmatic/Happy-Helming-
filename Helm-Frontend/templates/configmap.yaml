@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Values.component.name }}
-  namespace: {{ .Values.component.name }}
+  namespace: {{ .Values.component.namespace }}
   labels:
     name: frontend
     project: roboshop
