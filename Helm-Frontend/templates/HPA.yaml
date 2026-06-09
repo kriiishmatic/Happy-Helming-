@@ -14,7 +14,7 @@ spec:
     kind: Deployment
     name: {{ .Values.component.name }}
   minReplicas: {{ .Values.component.replicas }}
-  maxReplicas: {{ .Values.component.replicas | int * 2 }}
+  maxReplicas: {{ mul 2 (.Values.component.replicas | int) }}
   metrics:
     - type: Resource
       resource:
