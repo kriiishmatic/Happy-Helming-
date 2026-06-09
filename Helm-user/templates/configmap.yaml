@@ -9,7 +9,7 @@ metadata:
     environment: {{ .Values.component.environment }}
     tier: backend
 data:
-  MONGO: {{ .Values.endpoints.MONGO }}
-  REDIS_URL: {{ .Values.endpoints.REDIS_URL }}
-  MONGO_URL: {{ .Values.endpoints.MONGO_URL}}
+  MONGO: {{ .Values.endpoints.MONGO | quote }}
+  REDIS_URL: {{ .Values.endpoints.REDIS_URL | quote }}
+  MONGO_URL: {{ .Values.endpoints.MONGO_URL | quote }}
   
