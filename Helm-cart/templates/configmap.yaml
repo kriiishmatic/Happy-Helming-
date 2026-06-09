@@ -9,6 +9,6 @@ metadata:
     environment: {{ .Values.component.environment }}
     tier: backend
 data:
-  REDIS_HOST: {{ .Values.endpoints.REDIS_HOST}}
-  CATALOGUE_HOST: {{ .Values.endpoints.CATALOGUE_HOST}}
-  CATALOGUE_PORT: "8080"
+  REDIS_HOST: {{ .Values.endpoints.REDIS_HOST }}
+  CATALOGUE_HOST: {{ .Values.endpoints.CATALOGUE_HOST }}
+  CATALOGUE_PORT: {{ .Values.endpoints.CATALOGUE_PORT }}
