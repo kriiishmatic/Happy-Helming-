@@ -10,7 +10,11 @@ image:
 
 endpoints:
   REDIS_HOST = "redis"
-  CATALOGUE_HOST= ""
+  CATALOGUE_HOST= "catalogue"
+###### PORTS #######
+ports :
+  containerPort: 8080
+  servicePort: 8080
   
 
 
