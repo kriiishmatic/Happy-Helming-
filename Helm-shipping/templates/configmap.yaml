@@ -9,6 +9,6 @@ metadata:
     environment: {{ .Values.component.environment }}
     tier: backend
 data:
-  CART_ENDPOINT: {{ .Values.endpoints.CART_ENDPOINT}}
-  DB_HOST: {{ .Values.endpoints.DB_HOST}}
+  CART_ENDPOINT: {{ .Values.endpoints.CART_ENDPOINT | quote }}
+  DB_HOST: {{ .Values.endpoints.DB_HOST | quote }}
   

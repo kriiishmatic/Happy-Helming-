@@ -11,6 +11,12 @@ image:
 endpoints:
   CART_ENDPOINT: "cart:8080"
   DB_HOST: "mysql"
+
+###### PORTS #######
+ports :
+  containerPort: 8080
+  servicePort: 8080
+   
   
 
 
@@ -23,8 +29,4 @@ resources:
     cpu: 250m
     memory: 256Mi
 
-  ###### PORTS #######
-  ports :
-   containerPort: 8080
-   servicePort: 8080
-   
+  
