@@ -11,4 +11,4 @@ metadata:
 data:
   REDIS_HOST: {{ .Values.endpoints.REDIS_HOST }}
   CATALOGUE_HOST: {{ .Values.endpoints.CATALOGUE_HOST }}
-  CATALOGUE_PORT: {{ .Values.endpoints.CATALOGUE_PORT }}
+  CATALOGUE_PORT: 8080

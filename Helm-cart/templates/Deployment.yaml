@@ -17,25 +17,34 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include "backend.configChecksum" . | sha256sum }} ## configmap chanegs trigger deployemnt since teplate changes with diff hash value 
+        checksum/config: {{ include "backend.configChecksum" . | sha256sum }}
 
       labels:
         {{- include "backend.labels" . | nindent 8 }}
 
     spec:
+
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: {{ .Values.component.name }}
+
       containers:
         - name: {{ .Values.component.name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: IfNotPresent
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: {{ .Values.component.name }}
+
+          ports:
+            - containerPort: {{ .Values.ports.containerPort }}
+
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.component.name }}
 
           livenessProbe:
             httpGet:
@@ -52,28 +61,13 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 3
-            ## startup probe for not killing container on slow apps ,before liveness hits pod
-          startupProbe:  
+
+          startupProbe:
             httpGet:
               path: /health
               port: {{ .Values.ports.containerPort }}
             failureThreshold: 30
             periodSeconds: 10
 
-          ports:
-            - containerPort: {{ .Values.ports.containerPort }}
-
-          envFrom:
-            - configMapRef:
-                name: {{ .Values.component.name }}
-
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          
-          spec:
-  containers:
-  - name: cart
-    image: ...
-
-  
-          
