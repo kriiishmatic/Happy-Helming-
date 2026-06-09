@@ -1,11 +1,11 @@
 component :
-  name : payment
+  name : shipping
   environment: dev
   namespace: roboshop
   replicas: 1
 
 image:
-  repository: "854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/payment"
+  repository: "854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/shipping"
   tag: "1.0.0"
 
 endpoints:
